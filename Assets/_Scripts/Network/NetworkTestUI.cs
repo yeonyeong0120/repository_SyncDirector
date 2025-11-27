@@ -34,6 +34,43 @@ public class NetworkTestUI : MonoBehaviour
         }
 
         statusText.text = "역할을 선택하세요";
+
+        ///// 역부턴 테스트하는 부분!!!!!!!
+        // 1. 연결 시도 시작되면?
+        ConnectionStateManager.Instance.OnConnecting.AddListener(() => {
+            statusText.text = "연결 시도 중... (10초 대기)";
+            statusText.color = Color.yellow; // 노란색
+        });
+
+        // 2. 연결 성공하면?
+        ConnectionStateManager.Instance.OnConnected.AddListener(() => {
+            statusText.text = "연결 성공! (작업 시작)";
+            statusText.color = Color.green; // 초록색
+        });
+
+        // 3. 연결 실패하면? (타임아웃)
+        ConnectionStateManager.Instance.OnConnectionFailed.AddListener(() => {
+            statusText.text = "연결 실패! (시간 초과 또는 오류)";
+            statusText.color = Color.red; // 빨간색
+
+            // 다시 시도할 수 있게 버튼들 다시 보여주기
+            workerPanel.SetActive(false);
+            expertButton.gameObject.SetActive(true);
+            workerButton.gameObject.SetActive(true);
+            if (autoDiscoverButton != null) autoDiscoverButton.gameObject.SetActive(true);
+        });
+
+        // 4. 연결 끊기면?
+        ConnectionStateManager.Instance.OnDisconnected.AddListener(() => {
+            statusText.text = "연결이 끊어졌습니다.";
+            statusText.color = Color.red; // 빨간색
+
+            // 다시 시도할 수 있게 버튼들 다시 보여주기
+            workerPanel.SetActive(false);
+            expertButton.gameObject.SetActive(true);
+            workerButton.gameObject.SetActive(true);
+            if (autoDiscoverButton != null) autoDiscoverButton.gameObject.SetActive(true);
+        });
     }
 
     // 전문가 버튼 클릭 시
@@ -85,22 +122,6 @@ public class NetworkTestUI : MonoBehaviour
         UDPDiscovery.Instance.StartListening();
     }
 
-    void Update()
-    {
-        // 연결 상태 실시간 업데이트
-        if (CustomNetworkManager.Instance.myRole == UserRole.Expert)
-        {
-            if (Mirror.NetworkServer.connections.Count > 1)
-            {
-                statusText.text = "작업자 연결됨!";
-            }
-        }
-        else if (CustomNetworkManager.Instance.myRole == UserRole.Worker)
-        {
-            if (Mirror.NetworkClient.isConnected)
-            {
-                statusText.text = "전문가에 연결됨!";
-            }
-        }
-    }
+    // 업대이트 통째로 삭제
+
 }

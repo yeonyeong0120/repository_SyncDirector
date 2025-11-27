@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4249770569176482338}
   - component: {fileID: 1419682486514602282}
   - component: {fileID: 8448920088896420608}
+  - component: {fileID: 7801143783267471576}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -124,3 +125,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UDPDiscovery
   discoveryPort: 47777
   broadcastInterval: 1
+--- !u!114 &7801143783267471576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7373221872493354722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb4f023d65e645e41b4ccf62755443b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ConnectionStateManager
+  currentState: 0
+  connectionTimeout: 10
+  OnConnecting:
+    m_PersistentCalls:
+      m_Calls: []
+  OnConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnConnectionFailed:
+    m_PersistentCalls:
+      m_Calls: []

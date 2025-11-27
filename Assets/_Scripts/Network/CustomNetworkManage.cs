@@ -39,6 +39,9 @@ public class CustomNetworkManager : NetworkManager
     // 작업자 역할로 클라이언트 시작
     public void StartAsWorker(string ip)
     {
+        // 커넥트매니저한테 연결시도하라고 알렺주기
+        ConnectionStateManager.Instance.StartConnecting();
+
         myRole = UserRole.Worker;
         networkAddress = ip;
         StartClient(); // 클라이언트 시작
@@ -72,6 +75,15 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientConnect()
     {
         base.OnClientConnect();
+
+        // 연결 성공하면 성공했다규 알려주기
+        // 작업자일때만 성공햇다고 알려주셈
+        if (myRole == UserRole.Worker)
+        {
+            if (ConnectionStateManager.Instance != null)
+                ConnectionStateManager.Instance.OnConnectionSuccess();
+        }
+
         Debug.Log("[Client] 서버에 연결 성공!");
     }
 
@@ -79,6 +91,12 @@ public class CustomNetworkManager : NetworkManager
     public override void OnClientDisconnect()
     {
         base.OnClientDisconnect();
+
+        // 실패하면 실패했다고 알려주기
+        // [수정] Null 체크 추가!
+        if (ConnectionStateManager.Instance != null)
+            ConnectionStateManager.Instance.OnConnectionLost();
+
         Debug.LogError("[Client] 서버 연결 끊김!");
     }
 

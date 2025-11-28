@@ -97,3 +97,17 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+# [SyncDirector 팀 추가 설정]
+
+# 1. 빌드 시 생기는 IL2CPP 백업 폴더 (용량 주범!)
+*_BackUpThisFolder_ButDontShipItWithYourGame/
+*_BurstDebugInformation_DoNotShip/
+
+# 2. 운영체제 잡동사니 파일 (Mac/Windows)
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# 3. 비주얼 스튜디오 설정 파일 (개인 설정이라 공유 불필요)
+.vsconfig

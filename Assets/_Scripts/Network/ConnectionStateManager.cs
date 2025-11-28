@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using Mirror; // 혹시 몰라서 추가
 
 // 연결 상태 정의
 public enum ConnectionState
@@ -29,10 +30,10 @@ public class ConnectionStateManager : MonoBehaviour
 
     void Awake()
     {
+        // 싱글톤 패턴은 유지하되, DDOL은 NetworkManager가 처리하므로 제거 했음...
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // 씬이 바뀌어도 파괴되지 않음
         }
         else
         {
@@ -42,12 +43,11 @@ public class ConnectionStateManager : MonoBehaviour
 
     void Update()
     {
-        // 연결 시도 중일 때만 시간을 잽니다 (타임아웃 체크)
+        // 연결 시도 중일 때만 타임아웃 체크
         if (currentState == ConnectionState.Connecting)
         {
             connectionTimer += Time.deltaTime;
 
-            // 정해진 시간(10초)을 넘기면 에러 처리
             if (connectionTimer > connectionTimeout)
             {
                 OnConnectionTimeout();
@@ -64,24 +64,24 @@ public class ConnectionStateManager : MonoBehaviour
         Debug.Log("[상태] 연결 시도 중...");
     }
 
-    // 2. 연결 성공 (Mirror가 알려줌)
+    // 2. 연결 성공 (CustomNetworkManager에서 호출)
     public void OnConnectionSuccess()
     {
-        // 이미 연결된 상태면 무시
         if (currentState == ConnectionState.Connected) return;
 
         currentState = ConnectionState.Connected;
-        connectionTimer = 0f;
-        OnConnected?.Invoke(); // 구독자들에게 알림
-        Debug.Log("[상태] 연결 성공!");
+        connectionTimer = 0f; // 타이머 초기화
+        OnConnected?.Invoke();
+        Debug.Log("[ConnectionManager] 연결 성공!");
     }
 
     // 3. 연결 끊김 (Mirror가 알려줌)
     public void OnConnectionLost()
     {
+        // 일단은 Disconnected 처리
         currentState = ConnectionState.Disconnected;
         OnDisconnected?.Invoke();
-        Debug.LogWarning("[상태] 연결 끊김!");
+        Debug.LogWarning("[ConnectionManager] 연결 끊김.");
     }
 
     // 4. 타임아웃 (시간 초과)
@@ -89,10 +89,14 @@ public class ConnectionStateManager : MonoBehaviour
     {
         currentState = ConnectionState.Failed;
 
-        // Mirror의 연결 시도도 중단시켜야 함
-        CustomNetworkManager.Instance.StopClient();
+        // 타임아웃 발생 시 연결 시도 중단
+        // CustomNetworkManager가 있는지 확인 후 호출
+        if (CustomNetworkManager.Instance != null)
+        {
+            CustomNetworkManager.Instance.StopClient();
+        }
 
         OnConnectionFailed?.Invoke();
-        Debug.LogError("[상태] 연결 시간 초과 (타임아웃)!");
+        Debug.LogError($"[ConnectionManager] {connectionTimeout}초 동안 응답이 없어 연결 실패 처리됨.");
     }
 }

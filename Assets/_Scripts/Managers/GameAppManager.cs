@@ -14,6 +14,9 @@ public class GameAppManager : MonoBehaviour
         // 수직 동기화 끄기
         QualitySettings.vSyncCount = 0;
 
+        // 앱이 백그라운드로 넘어가도 네트워크가 안 끊기게 함
+        Application.runInBackground = true;
+
         DontDestroyOnLoad(gameObject);
     }
 }

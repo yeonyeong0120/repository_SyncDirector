@@ -7105,10 +7105,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4249770569176482338, guid: 14da4cfc1ecae1b4cbd36141b7b10ac5, type: 3}
-      propertyPath: playerPrefab
-      value: 
-      objectReference: {fileID: 2273567038113826166, guid: 3c67a6c1738efbf4da57e66caf55d2c0, type: 3}
     - target: {fileID: 7373221872493354722, guid: 14da4cfc1ecae1b4cbd36141b7b10ac5, type: 3}
       propertyPath: m_Name
       value: NetworkManager
@@ -11673,7 +11669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _monoscopic: 0
   _sharpenType: 0
-  _enableDynamicResolution: 0
+  _enableDynamicResolution: 1
   minDynamicResolutionScale: 1
   maxDynamicResolutionScale: 1
   quest2MinDynamicResolutionScale: 0.7

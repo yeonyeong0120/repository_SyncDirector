@@ -26,7 +26,7 @@ public class UDPDiscovery : MonoBehaviour
         myIP = GetLocalIPAddress();
     }
 
-    // [Sender - 전문가] : "나 여기 있어!"라고 계속 방송하기
+    // Sender - 전문가
     public void StartBroadcasting()
     {
         if (isDiscovering) return;
@@ -68,16 +68,22 @@ public class UDPDiscovery : MonoBehaviour
         }
     }
 
-    // [Receiver - 작업자] : 귀 열고 듣기
+    // Receiver - 작업자
     public void StartListening()
     {
         try
         {
-            // 이미 열려있으면 닫고 다시 열기
             if (udpClient != null) udpClient.Close();
 
-            udpClient = new UdpClient(discoveryPort);
-            udpClient.BeginReceive(OnReceiveData, null); // 비동기 수신 대기
+            udpClient = new UdpClient();
+
+            // 포트를 OS가 바로 재사용할 수 있게 허용 (프로그램 재실행 시 에러 방지)
+            udpClient.Client.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
+
+            // 그 다음 포트 바인딩
+            udpClient.Client.Bind(new IPEndPoint(IPAddress.Any, discoveryPort));
+
+            udpClient.BeginReceive(OnReceiveData, null);
 
             Debug.Log($"[Discovery] 수신 대기 중... (Port: {discoveryPort})");
         }

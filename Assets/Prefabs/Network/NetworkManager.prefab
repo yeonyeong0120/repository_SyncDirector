@@ -51,7 +51,7 @@ MonoBehaviour:
   runInBackground: 1
   headlessStartMode: 0
   editorAutoStart: 0
-  sendRate: 60
+  sendRate: 30
   offlineScene: 
   onlineScene: 
   offlineSceneLoadDelay: 0
@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Mirror.Transports::kcp2k.KcpTransport
   port: 7777
-  DualMode: 1
+  DualMode: 0
   NoDelay: 1
   Interval: 10
   Timeout: 10000

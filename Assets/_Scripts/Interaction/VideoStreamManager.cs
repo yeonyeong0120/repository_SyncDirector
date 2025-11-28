@@ -7,8 +7,8 @@ public class VideoStreamManager : NetworkBehaviour
 {
     [Header("카메라 설정")]
     public Camera centerViewCamera;
-    public int textureWidth = 640; // 
-    public int textureHeight = 480; // 
+    public int textureWidth = 320; // 
+    public int textureHeight = 4240; // 
     public int jpegQuality = 75;    // 
 
     [Header("스트리밍 설정")]

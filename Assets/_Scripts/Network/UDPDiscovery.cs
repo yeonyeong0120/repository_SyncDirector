@@ -55,9 +55,9 @@ public class UDPDiscovery : MonoBehaviour
 
             // Broadcast(255.255.255.255) 대신 로컬호스트(127.0.0.1)로 강제 전송
             // 이유: 윈도우에서는 자기 자신에게 Broadcast가 안 가는 경우가 많음
-            // ★ 나중에 VR 기기 테스트할 때는 아래 줄을 주석 처리하고, 그 아래 줄을 푸세요! ★
-            IPEndPoint broadcastEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), discoveryPort);
-            // IPEndPoint broadcastEP = new IPEndPoint(IPAddress.Broadcast, discoveryPort); // <-- 원래 코드 (VR용)
+            // ★ 나중에 VR 기기 테스트할 때는 아래 줄을 주석 처리하고, 그 아래 줄을 풀기 ★
+            //IPEndPoint broadcastEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), discoveryPort);
+            IPEndPoint broadcastEP = new IPEndPoint(IPAddress.Broadcast, discoveryPort); // <-- 원래 코드 (VR용)
 
             sender.Send(data, data.Length, broadcastEP);
             sender.Close();
@@ -98,10 +98,10 @@ public class UDPDiscovery : MonoBehaviour
             byte[] data = udpClient.EndReceive(result, ref remoteEndPoint);
             string message = Encoding.UTF8.GetString(data);
 
-            // 1. 작업자가 전문가의 방송("DISCOVER")을 들었을 때
+            // 작업자가 전문가의 방송("DISCOVER")을 들었을 때
             if (message.StartsWith("DISCOVER:"))
             {
-                // ★★★ 수정 1: 내가 이미 전문가(Host)라면, 내 방송은 무시한다! ★★★
+                // ★★★ 내가 이미 전문가(Host)라면, 내 방송은 무시한다! ★★★
                 if (CustomNetworkManager.Instance.myRole == UserRole.Expert) return;
 
                 string senderIP = message.Replace("DISCOVER:", "");
@@ -116,8 +116,8 @@ public class UDPDiscovery : MonoBehaviour
                     CustomNetworkManager.Instance.myRole = UserRole.Worker;
 
                     // ★★★ 수정 3: 테스트 중에는 IP 무시하고 무조건 'localhost'로 연결! ★★★
-                    // (나중에 VR 기기로 할 때는 senderIP로 바꿔야 합니다)
-                    CustomNetworkManager.Instance.StartAsWorker("localhost");
+                    //CustomNetworkManager.Instance.StartAsWorker("localhost");
+                    CustomNetworkManager.Instance.StartAsWorker(senderIP);  // <- 이게 VR용
                 });
             }
 
@@ -142,8 +142,8 @@ public class UDPDiscovery : MonoBehaviour
             UdpClient sender = new UdpClient();
 
             // 응답도 안전하게 127.0.0.1로 보냄 (PC 테스트용)
-            IPEndPoint targetEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), discoveryPort);
-            // IPEndPoint targetEP = new IPEndPoint(IPAddress.Parse(targetIP), discoveryPort); // <-- 원래 코드 (VR용)
+            //IPEndPoint targetEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), discoveryPort);
+            IPEndPoint targetEP = new IPEndPoint(IPAddress.Parse(targetIP), discoveryPort); // <-- 원래 코드 (VR용)
 
             sender.Send(data, data.Length, targetEP);
             sender.Close();

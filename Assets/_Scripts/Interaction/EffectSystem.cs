@@ -25,7 +25,6 @@ public class EffectSystem : MonoBehaviour
 
     void Start()
     {
-        // Interactable 오브젝트 등록 (HighlightSystem과 동일)
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Interactable");
         foreach (GameObject obj in objects)
         {
@@ -33,14 +32,9 @@ public class EffectSystem : MonoBehaviour
         }
     }
 
-    // OSCManager에서 호출됨 (작업자 역할)
     public void PlayEffect(string effectType, string objectID)
     {
-        if (!interactableObjects.ContainsKey(objectID))
-        {
-            Debug.LogWarning($"[Effect] 오브젝트 없음: {objectID}");
-            return;
-        }
+        if (!interactableObjects.ContainsKey(objectID)) return;
 
         GameObject obj = interactableObjects[objectID];
         GameObject effectPrefab = null;
@@ -57,9 +51,8 @@ public class EffectSystem : MonoBehaviour
 
         if (effectPrefab != null)
         {
-            // 오브젝트 위치에 이펙트 생성
             GameObject effect = Instantiate(effectPrefab, obj.transform.position, Quaternion.identity);
-            Destroy(effect, 2f); // 2초 후 제거
+            Destroy(effect, 2f);
             Debug.Log($"[Effect] 이펙트 재생: {effectType} on {objectID}");
         }
     }

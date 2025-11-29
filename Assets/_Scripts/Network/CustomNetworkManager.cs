@@ -1,9 +1,11 @@
 using UnityEngine;
 using Mirror;
+using System;
 
 public class CustomNetworkManager : NetworkManager
 {
     public static CustomNetworkManager Instance { get; private set; }
+    public static Action OnWorkerConnected;
 
     [Header("역할 구분")]
     public UserRole myRole = UserRole.None;
@@ -105,6 +107,12 @@ public class CustomNetworkManager : NetworkManager
     {
         base.OnServerConnect(conn);
         Debug.Log($"[Host] 클라이언트 연결됨: {conn.address}");
+
+        // 접속시 텍스트 바꾸기 일단임시로...
+        if (conn.connectionId > 0)
+        {
+            OnWorkerConnected?.Invoke();
+        }
     }
 }
 

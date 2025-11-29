@@ -20,9 +20,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/03_Collaboration.unity
     guid: f704fea3ccff2dd47991112fa02a20ea
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/NetworkTest/TestNetworkConnection.unity
     guid: 89789528ae79f22429eec5a28b84e8dd
+  - enabled: 1
+    path: Assets/Scenes/Part _C.unity
+    guid: 572b701bd6682ee40afb7dc775b09cdf
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 33d2f2a26eaa566469209ff5e6596b1b, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

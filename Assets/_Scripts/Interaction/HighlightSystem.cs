@@ -1,106 +1,41 @@
 using UnityEngine;
-using System.Collections.Generic;
+using Mirror;
 
-public class HighlightSystem : MonoBehaviour
+public class HighlightSystem : NetworkBehaviour
 {
-    public static HighlightSystem Instance { get; private set; }
+    // 어디서든 쉽게 접근하기 위해 싱글톤 패턴 사용
+    public static HighlightSystem Instance;
 
-    [Header("하이라이트 설정")]
-    public Material highlightMaterial;
-    public float highlightDuration = 3f;
-
-    private Dictionary<string, GameObject> interactableObjects = new Dictionary<string, GameObject>();
-    private Dictionary<GameObject, Material[]> originalMaterials = new Dictionary<GameObject, Material[]>();
-    private Dictionary<GameObject, float> highlightTimers = new Dictionary<GameObject, float>();
-
-    void Awake()
+    private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
     }
 
-    void Start()
+    // 1. 전문가가 호출하는 명령 (클라이언트 -> 서버)
+    // [Command]는 Mirror의 기능이므로 지우면 안 됩니다!
+    [Command(requiresAuthority = false)]
+    public void CmdHighlight(string objectID)
     {
-        RegisterAllInteractableObjects();
+        Debug.Log($"[Server] 하이라이트 요청 받음: {objectID}");
+
+        // 2. 서버가 모든 클라이언트에게 전파 (서버 -> 모든 클라이언트)
+        RpcHighlight(objectID);
     }
 
-    void RegisterAllInteractableObjects()
+    // 3. 작업자(모두)의 화면에서 실제 효과 실행
+    // [ClientRpc]는 Mirror의 기능이므로 지우면 안 됩니다!
+    [ClientRpc]
+    void RpcHighlight(string objectID)
     {
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("Interactable");
-        foreach (GameObject obj in objects)
+        Debug.Log($"[Client] 하이라이트 신호 수신: {objectID}");
+
+        // 이름으로 오브젝트 찾기
+        GameObject target = GameObject.Find(objectID);
+        if (target != null)
         {
-            string objectID = obj.name;
-            interactableObjects[objectID] = obj;
-
-            Renderer renderer = obj.GetComponent<Renderer>();
-            if (renderer != null)
-            {
-                originalMaterials[obj] = renderer.sharedMaterials;
-            }
+            // 효과 재생
+            HighlightEffect effect = target.GetComponent<HighlightEffect>();
+            if (effect != null) effect.Play();
         }
-        Debug.Log($"[Highlight] {objects.Length}개 오브젝트 등록 완료.");
-    }
-
-    public void HighlightObject(string objectID)
-    {
-        if (!interactableObjects.ContainsKey(objectID)) return;
-
-        GameObject obj = interactableObjects[objectID];
-        Renderer renderer = obj.GetComponent<Renderer>();
-        if (renderer == null) return;
-
-        Material[] newMaterials = new Material[renderer.materials.Length];
-        for (int i = 0; i < newMaterials.Length; i++)
-        {
-            newMaterials[i] = highlightMaterial;
-        }
-        renderer.materials = newMaterials;
-
-        highlightTimers[obj] = highlightDuration;
-        Debug.Log($"[Highlight] 오브젝트 하이라이트 시작: {objectID}");
-    }
-
-    void Update()
-    {
-        List<GameObject> toRemove = new List<GameObject>();
-
-        foreach (var kvp in highlightTimers)
-        {
-            GameObject obj = kvp.Key;
-            float timer = kvp.Value - Time.deltaTime;
-
-            if (timer <= 0)
-            {
-                RemoveHighlight(obj);
-                toRemove.Add(obj);
-            }
-            else
-            {
-                highlightTimers[obj] = timer;
-            }
-        }
-
-        foreach (GameObject obj in toRemove)
-        {
-            highlightTimers.Remove(obj);
-        }
-    }
-
-    void RemoveHighlight(GameObject obj)
-    {
-        if (!originalMaterials.ContainsKey(obj)) return;
-
-        Renderer renderer = obj.GetComponent<Renderer>();
-        if (renderer != null)
-        {
-            renderer.materials = originalMaterials[obj];
-        }
-        Debug.Log($"[Highlight] 하이라이트 제거: {obj.name}");
     }
 }

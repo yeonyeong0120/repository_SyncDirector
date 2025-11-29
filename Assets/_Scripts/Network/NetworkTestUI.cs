@@ -10,6 +10,9 @@ public class NetworkTestUI : MonoBehaviour
     public TMP_InputField ipInputField;
     public Button connectButton;
 
+    [Header("설정")]  // 인스펙터에서 수정하고싶음....
+    public float discoveryTimeout = 10.0f;
+
     // 자동 검색 버튼 변수 추가
     public Button autoDiscoverButton;
 
@@ -47,6 +50,10 @@ public class NetworkTestUI : MonoBehaviour
             statusText.text = "연결 성공! (작업 시작)";
             statusText.color = Color.green; // 초록색
         });
+        CustomNetworkManager.OnWorkerConnected += () => {
+            statusText.text = "작업자 접속 완료!\n(협업 시작)";
+            statusText.color = Color.green;
+        };
 
         // 3. 연결 실패하면? (타임아웃)
         ConnectionStateManager.Instance.OnConnectionFailed.AddListener(() => {
@@ -120,6 +127,26 @@ public class NetworkTestUI : MonoBehaviour
 
         // 전문가를 찾기 위해 리스닝(듣기) 시작!
         UDPDiscovery.Instance.StartListening();
+
+        Invoke(nameof(OnDiscoveryTimeout), discoveryTimeout); // 타임아웃처리
+    }
+
+    // 자동검색 타임아웃 처리 함수
+    void OnDiscoveryTimeout()
+    {
+        // 아직도 연결이 안 된 상태(역할이 None)라면 실패 처리
+        if (CustomNetworkManager.Instance.myRole == UserRole.None)
+        {
+            UDPDiscovery.Instance.StopDiscovery();
+            statusText.text = "검색 실패 (전문가를 못 찾음)\n핫스팟 연결을 확인하세요.";
+            statusText.color = Color.red;
+
+            // 버튼 다시 복구
+            workerPanel.SetActive(false);
+            expertButton.gameObject.SetActive(true);
+            workerButton.gameObject.SetActive(true);
+            if (autoDiscoverButton != null) autoDiscoverButton.gameObject.SetActive(true);
+        }
     }
 
     // 업대이트 통째로 삭제

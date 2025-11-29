@@ -177,20 +177,34 @@ public class UDPDiscovery : MonoBehaviour
 
     string GetLocalIPAddress()
     {
-        string localIP = "127.0.0.1";
-        try
+        string localIP = "";
+        // 모든 네트워크 인터페이스를 뒤져서 Wi-Fi IP를 찾아냄
+        var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+        foreach (var ip in host.AddressList)
         {
-            var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
-            foreach (var ip in host.AddressList)
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
             {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    localIP = ip.ToString();
-                    break;
-                }
+                localIP = ip.ToString();
+                // 192.168로 시작하는 IP를 우선적으로 찾음 (공유기 환경)
+                if (localIP.StartsWith("192")) break;
             }
         }
-        catch (Exception e) { Debug.LogError(e.Message); }
+
+        // 2차 시도 (Android 전용)
+        if (string.IsNullOrEmpty(localIP))
+        {
+            try
+            {
+                using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, 0))
+                {
+                    socket.Connect("8.8.8.8", 65530);
+                    IPEndPoint endPoint = socket.LocalEndPoint as IPEndPoint;
+                    localIP = endPoint.Address.ToString();
+                }
+            }
+            catch { localIP = "127.0.0.1"; }
+        }
+
         return localIP;
     }
 

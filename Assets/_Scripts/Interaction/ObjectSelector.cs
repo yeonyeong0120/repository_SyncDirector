@@ -12,27 +12,23 @@ public class ObjectSelector : MonoBehaviour
 
     void Update()
     {
-        // 1. 컨트롤러 위치에서 앞방향으로 레이저 발사 준비
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
 
-        // 디버그용: 씬 화면에 빨간 선 그리기
         Debug.DrawRay(ray.origin, ray.direction * rayDistance, Color.red);
 
-        // 2. 레이저 쏘기!
         if (Physics.Raycast(ray, out hit, rayDistance))
         {
-            // 3. 맞은 놈이 "Interactable" 태그를 달고 있는가?
+            // ▼▼▼▼▼▼ [범인 색출 로그 추가] ▼▼▼▼▼▼
+            // 레이저가 닿은 물체 이름을 무조건 출력합니다.
+            Debug.Log($"레이저가 때린 것: {hit.collider.name}");
+            // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
             if (hit.collider.CompareTag(targetTag))
             {
-                // 4. (테스트) 트리거를 당기거나 마우스를 클릭하면
                 if (OVRInput.GetDown(OVRInput.Button.SecondaryIndexTrigger) || Input.GetMouseButtonDown(0))
                 {
-                    string objectID = hit.collider.gameObject.name;
-                    Debug.Log($"[VR선택] 장비 인식됨: {objectID}");
-
-                    // 여기에 나중에 "HighlightSystem.Instance.CmdHighlight(objectID)"를 넣을 겁니다.
-                    // 지금은 로컬 테스트용으로 직접 효과 재생
+                    // ... (기존 코드 유지) ...
                     hit.collider.GetComponent<HighlightEffect>().Play();
                 }
             }

@@ -17,13 +17,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/_Scenes/02_Connection.unity
     guid: 6898b2c028504d34c8fc0f7258b183b6
-  - enabled: 0
+  - enabled: 1
     path: Assets/_Scenes/03_Collaboration.unity
     guid: f704fea3ccff2dd47991112fa02a20ea
   - enabled: 0
     path: Assets/_Scenes/NetworkTest/TestNetworkConnection.unity
     guid: 89789528ae79f22429eec5a28b84e8dd
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/Part _C.unity
     guid: 572b701bd6682ee40afb7dc775b09cdf
   m_configObjects:

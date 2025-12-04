@@ -31,15 +31,12 @@ public class RoleSelectUI : MonoBehaviour
             CustomNetworkManager.Instance.StartAsExpert();
         }
 
-        // ? 실제 씬 이름 사용
-        SceneManager.LoadScene("03_Collaboration");
+        SceneController.Instance.GoToCollaboration();
     }
 
     void OnWorkerSelected()
     {
         Debug.Log("[UI] 작업자 역할 선택");
-
-        // ? 실제 씬 이름 사용
-        SceneManager.LoadScene("02_Connection");
+        SceneController.Instance.GoToConnection();
     }
 }

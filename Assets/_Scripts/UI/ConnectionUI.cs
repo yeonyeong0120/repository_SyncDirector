@@ -8,6 +8,7 @@ public class ConnectionUI : MonoBehaviour
     public TMP_InputField ipInput;      // IP 입력창
     public Button manualConnectBtn;     // 수동 연결 버튼
     public Button autoDiscoverBtn;      // 자동 검색 버튼
+    public Button backBtn;
     public TextMeshProUGUI statusText;  // 상태 텍스트
 
     [Header("추가 설정")]
@@ -29,6 +30,11 @@ public class ConnectionUI : MonoBehaviour
         // 버튼에 기능 연결
         manualConnectBtn.onClick.AddListener(OnManualConnect);
         autoDiscoverBtn.onClick.AddListener(OnAutoDiscover);
+
+        if (backBtn != null)
+        {
+            backBtn.onClick.AddListener(OnBackBtn);
+        }
 
         // 팀장님의 상태 매니저(ConnectionStateManager) 이벤트 구독
         if (ConnectionStateManager.Instance != null)
@@ -73,7 +79,11 @@ public class ConnectionUI : MonoBehaviour
         }
     }
 
-    
+    void OnBackBtn()
+    {
+        // 씬 컨트롤러를 통해 역할 선택 화면으로 이동
+        SceneController.Instance.GoToRoleSelect();
+    }
 
 
     // 연결 성공 시 실행됨

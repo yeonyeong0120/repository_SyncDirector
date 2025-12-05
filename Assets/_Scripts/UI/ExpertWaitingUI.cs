@@ -16,7 +16,7 @@ public class ExpertWaitingUI : MonoBehaviour
         {
             // 전문가라면 대기 패널 보여주기
             if (waitingPanel != null) waitingPanel.SetActive(true);
-            UpdateText("작업자 접속 대기 중...", Color.yellow);
+            UpdateText("작업자 접속 대기 중...", Color.darkGray);
 
             // 2. 작업자가 들어왔을 때 실행될 이벤트 연결
             CustomNetworkManager.OnWorkerConnected += HandleWorkerConnected;
@@ -25,6 +25,7 @@ public class ExpertWaitingUI : MonoBehaviour
         {
             // 작업자라면 이 패널을 아예 숨김
             if (waitingPanel != null) waitingPanel.SetActive(false);
+            Debug.Log("Worker");
         }
     }
 

@@ -24,6 +24,13 @@ public class RoleLayoutManager : MonoBehaviour
             // 전문가는 컨트롤 패널을 봐야 함
             if (expertGroup != null) expertGroup.SetActive(true);
             if (workerGroup != null) workerGroup.SetActive(false);
+
+            // ▼▼▼ [추가] 전문가일 때 방송(Broadcasting)을 시작하는 코드 추가 ▼▼▼
+            if (UDPDiscovery.Instance != null)
+            {
+                UDPDiscovery.Instance.StartBroadcasting();
+                Debug.Log("전문가: 자동 검색 브로드캐스트 시작됨!");
+            }
         }
         else if (myRole == UserRole.Worker)
         {

@@ -10,8 +10,22 @@ public class ConnectionUI : MonoBehaviour
     public Button autoDiscoverBtn;      // 자동 검색 버튼
     public TextMeshProUGUI statusText;  // 상태 텍스트
 
+    [Header("추가 설정")]
+    public float discoveryTimeout = 10.0f; // 타임아웃 관련
+
     void Start()
     {
+        statusText.text = "";
+        statusText.color = Color.darkGray;
+        // 작업자가 들어오면 실행될 코드 (이벤트 구독)
+        CustomNetworkManager.OnWorkerConnected += () => {
+            statusText.text = "작업자 접속 완료! (협업 시작)";
+            statusText.color = Color.green;
+
+            // 3초 뒤에 텍스트 끄기 (선택)
+            Invoke(nameof(HideText), 3f);
+        };
+
         // 버튼에 기능 연결
         manualConnectBtn.onClick.AddListener(OnManualConnect);
         autoDiscoverBtn.onClick.AddListener(OnAutoDiscover);
@@ -51,12 +65,16 @@ public class ConnectionUI : MonoBehaviour
         if (UDPDiscovery.Instance != null)
         {
             UDPDiscovery.Instance.StartListening();
-        }
+            Invoke(nameof(OnDiscoveryTimeout), discoveryTimeout);
+        }    
         else
         {
             Debug.LogError("UDPDiscovery가 없습니다! NetworkManager 프리팹을 확인하세요.");
         }
     }
+
+    
+
 
     // 연결 성공 시 실행됨
     void OnConnectionSuccess()
@@ -82,4 +100,24 @@ public class ConnectionUI : MonoBehaviour
             statusText.color = color;
         }
     }
-}
+
+    void OnDiscoveryTimeout()
+    {
+        // 아직 연결이 안 됐다면? (역할이 안정해졌다면)
+        if (CustomNetworkManager.Instance.myRole == UserRole.None)
+        {
+            // 검색 중단
+            if(UDPDiscovery.Instance != null) UDPDiscovery.Instance.StopDiscovery();
+            
+            UpdateStatus("검색 실패! (전문가를 못 찾음)", Color.red);
+        }
+    }
+
+    void HideText()
+    {
+        if (statusText != null)
+        {
+            statusText.text = ""; // 텍스트 내용을 비웁니다.
+        }
+    }
+}// 클래스

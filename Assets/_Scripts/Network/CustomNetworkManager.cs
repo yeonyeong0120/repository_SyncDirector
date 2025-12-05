@@ -20,11 +20,12 @@ public class CustomNetworkManager : NetworkManager
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
-        // 주의: NetworkManager는 기본적으로 DontDestroyOnLoad가 적용되므로 
-        // 중복 생성을 막기 위해 기존 것이 있다면 파괴하는 로직이 필요할 수 있습니다.
         else
         {
+            // 이미 원조(Scene 00/01에서 온 녀석)가 있다면, 
+            // Scene 03에 미리 배치되어 있던 나는 '가짜'이므로 스스로 사라진다.
             Destroy(gameObject);
         }
     }

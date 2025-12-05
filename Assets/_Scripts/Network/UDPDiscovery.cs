@@ -132,7 +132,7 @@ public class UDPDiscovery : MonoBehaviour
             // 계속 듣기
             udpClient.BeginReceive(OnReceiveData, null);
         }
-        catch (Exception e)
+        catch (Exception)
         {
             // 종료될 때 에러는 무시
         }

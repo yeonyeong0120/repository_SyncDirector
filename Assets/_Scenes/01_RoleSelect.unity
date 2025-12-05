@@ -11534,7 +11534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c99e3b9b92f0e439a95f8fc7736776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LaserVisual
-  maxDistance: 3
+  maxDistance: 4
 --- !u!120 &1974410691
 LineRenderer:
   serializedVersion: 2

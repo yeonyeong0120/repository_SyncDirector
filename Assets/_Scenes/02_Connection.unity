@@ -7627,6 +7627,7 @@ GameObject:
   - component: {fileID: 1256885604}
   - component: {fileID: 1256885603}
   - component: {fileID: 1256885605}
+  - component: {fileID: 1256885606}
   m_Layer: 0
   m_Name: CenterEyeAnchor
   m_TagString: MainCamera
@@ -7752,6 +7753,22 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1256885606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256885601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c49b4cc203aa6414fae5c798d1d0e7d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.PhysicsRaycaster
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &1267196187
 GameObject:
   m_ObjectHideFlags: 0
@@ -8613,6 +8630,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1423320750}
   - component: {fileID: 1423320751}
+  - component: {fileID: 1423320753}
+  - component: {fileID: 1423320752}
   m_Layer: 0
   m_Name: Guide_Robot
   m_TagString: Untagged
@@ -8649,6 +8668,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a80fe909e3ea1d04596d188bab0144a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleLookAt
+--- !u!65 &1423320752
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423320749}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.44878697, y: 0.7638008, z: 0.4882444}
+  m_Center: {x: -0.0038683414, y: 0.350974, z: -0.029030502}
+--- !u!114 &1423320753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423320749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f820ba481ffa6a24c90c7f4f51122f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RobotMessage
+  bubbleText: {fileID: 1085914570}
+  messages:
+  - "\uC548\uB155\uD558\uC138\uC694! \uC2F1\uD06C\uB514\uB809\uD130\uC785\uB2C8\uB2E4!"
+  - "\uC791\uC5C5\uC790\uB97C \uAE30\uB2E4\uB9AC\uACE0 \uC788\uC5B4\uC694 ! _ !"
+  - "IP \uC5F0\uACB0\uC744 \uD655\uC778\uD574\uC8FC\uC138\uC694!"
+  - "\uC790\uB3D9 \uAC80\uC0C9\uC744 \uB20C\uB7EC\uBCF4\uC138\uC694!"
 --- !u!1 &1427818338
 GameObject:
   m_ObjectHideFlags: 0
@@ -8903,19 +8961,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.3695993
+      value: 0.042500924
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.3695993
+      value: -0.042500846
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.60282373
+      value: -0.70582855
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.60282356
+      value: -0.70582825
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8927,7 +8985,39 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -116.974
+      value: -173.108
+      objectReference: {fileID: 0}
+    - target: {fileID: -7917650977041012063, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -0.00000009667883
+      objectReference: {fileID: 0}
+    - target: {fileID: -7917650977041012063, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 8.852514
+      objectReference: {fileID: 0}
+    - target: {fileID: -7917650977041012063, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0.0000027130857
+      objectReference: {fileID: 0}
+    - target: {fileID: -6402373904904791571, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -4080102508944878469, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -0.0000023587245
+      objectReference: {fileID: 0}
+    - target: {fileID: -4080102508944878469, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -8.85253
+      objectReference: {fileID: 0}
+    - target: {fileID: -4080102508944878469, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 179.99998
+      objectReference: {fileID: 0}
+    - target: {fileID: -1253996098385199550, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.0000010596309
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_Name

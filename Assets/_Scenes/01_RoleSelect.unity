@@ -2842,53 +2842,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1554648394}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &542356077
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 542356079}
-  - component: {fileID: 542356080}
-  m_Layer: 0
-  m_Name: UI_Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &542356079
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542356077}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.13186, y: 0, z: 7.39858}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &542356080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 542356077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48dbc22e7423af447ac56de5275b4eed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoleSelectUI
-  expertButton: {fileID: 1074821700}
-  workerButton: {fileID: 1066049401}
-  statusText: {fileID: 0}
 --- !u!1 &544742676
 GameObject:
   m_ObjectHideFlags: 0
@@ -3960,54 +3913,6 @@ Transform:
   m_Children:
   - {fileID: 47564675}
   m_Father: {fileID: 836850489}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &753547400
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 753547402}
-  - component: {fileID: 753547401}
-  m_Layer: 0
-  m_Name: SceneController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &753547401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753547400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21776f10698efc74993372d5c6edbe4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::IntroSceneController
-  introSceneName: 00_Intro
-  roleSelectSceneName: 01_RoleSelect
-  connectionSceneName: 02_Connection
-  collaborationSceneName: 03_Collaboration
---- !u!4 &753547402
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753547400}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &765666981
 GameObject:
@@ -5646,7 +5551,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 542356080}
+      - m_Target: {fileID: 1846569101}
         m_TargetAssemblyTypeName: RoleSelectUI, Assembly-CSharp
         m_MethodName: OnWorkerClick
         m_Mode: 1
@@ -5811,7 +5716,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 542356080}
+      - m_Target: {fileID: 1846569101}
         m_TargetAssemblyTypeName: RoleSelectUI, Assembly-CSharp
         m_MethodName: OnExpertClick
         m_Mode: 1
@@ -12551,8 +12456,6 @@ SceneRoots:
   - {fileID: 38505767}
   - {fileID: 1846569100}
   - {fileID: 214343504}
-  - {fileID: 753547402}
   - {fileID: 1260906794}
-  - {fileID: 542356079}
   - {fileID: 1316613965}
   - {fileID: 1459527888}

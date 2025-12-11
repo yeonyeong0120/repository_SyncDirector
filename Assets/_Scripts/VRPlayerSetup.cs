@@ -1,43 +1,51 @@
 using UnityEngine;
 using Mirror;
+// OVR 기능을 쓰기 위해 네임스페이스 추가 가능하지만, 
+// 여기서는 GetComponent로 직접 찾아서 처리합니다.
 
 public class VRPlayerSetup : NetworkBehaviour
 {
     [Header("연결 대상")]
-    public GameObject cameraRig; // [BuildingBlock] Camera Rig 연결
-    public Renderer bodyMesh;    // Player (본체) 연결
+    public GameObject cameraRig; // [BuildingBlock] Camera Rig
+    public Renderer bodyMesh;    // Player (본체)
 
     void Start()
     {
-        // ★ 안전장치: cameraRig가 연결 안 되어 있으면 찾아서라도 넣음
+        // 안전장치: cameraRig가 비어있으면 찾기
         if (cameraRig == null)
             cameraRig = GetComponentInChildren<OVRCameraRig>()?.gameObject;
 
-        // 1. 내 캐릭터(Local Player)라면? -> "주인님 어서오세요"
+        // 1. [내 캐릭터]라면? -> "내 뇌(Manager)와 눈(Camera)을 켠다"
         if (isLocalPlayer)
         {
-            // 내 카메라는 켠다.
             if (cameraRig != null) cameraRig.SetActive(true);
+            if (bodyMesh != null) bodyMesh.enabled = false; // 내 몸 안 보이게
 
-            // 내 몸(캡슐)은 내 시야를 가리니까 끈다.
-            if (bodyMesh != null) bodyMesh.enabled = false;
-
-            // (추가) 내 오디오 리스너 켜기
-            AudioListener listener = cameraRig.GetComponentInChildren<AudioListener>();
-            if (listener != null) listener.enabled = true;
+            // ★ 중요: 내 OVRManager는 켜야 함!
+            OVRManager myManager = GetComponentInChildren<OVRManager>();
+            if (myManager != null) myManager.enabled = true;
         }
-        // 2. 남의 캐릭터(Remote Player)라면? -> "당신은 그냥 껍데기일 뿐"
+        // 2. [남의 캐릭터]라면? -> "남의 뇌와 눈을 제거한다"
         else
         {
-            // ★ 핵심: 남의 카메라는 통째로 꺼버린다! (OVRManager 충돌 방지)
+            // 카메라 끄기
             if (cameraRig != null) cameraRig.SetActive(false);
+            if (bodyMesh != null) bodyMesh.enabled = true; // 남의 몸 보이게
 
-            // 남의 몸은 보여야 한다.
-            if (bodyMesh != null) bodyMesh.enabled = true;
+            // ★★★ 핵심 해결책: 남의 OVRManager는 컴포넌트 자체를 파괴한다! ★★★
+            // 그냥 끄는(disable) 것보다 파괴(Destroy)하는 게 가장 확실합니다.
+            OVRManager remoteManager = GetComponentInChildren<OVRManager>();
+            if (remoteManager != null)
+            {
+                Destroy(remoteManager);
+            }
 
-            // (추가) 혹시 모르니 오디오 리스너도 확실히 끈다
-            AudioListener listener = GetComponentInChildren<AudioListener>();
-            if (listener != null) listener.enabled = false;
+            // 오디오 리스너도 파괴 (소리 충돌 방지)
+            AudioListener remoteListener = GetComponentInChildren<AudioListener>();
+            if (remoteListener != null)
+            {
+                Destroy(remoteListener);
+            }
         }
     }
 }

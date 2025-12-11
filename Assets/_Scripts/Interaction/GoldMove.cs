@@ -5,11 +5,11 @@ using System.Collections;
 public class GoldMove : NetworkBehaviour
 {
     // 이동 상태를 정의하는 Enum (내부적으로 사용)
-    public enum MoveState { Stopped, MovingY, MovingX }
+    public enum MoveState { Stopped, MovingZ, MovingX } // 이름만 Z로 변경했습니다.
 
     [Header("골드바 이동 설정")]
-    public float moveZDistance = -6.5f; // Y축 이동 거리 (현재 설정된 -6.5)
-    public float moveXDistance = -3.5f; // X축 추가 이동 거리 (새로 추가된 -3.5)
+    public float moveZDistance = -6.5f; // Z축 이동 거리 (설정된 -6.5)
+    public float moveXDistance = -3.5f; // X축 이동 거리 (설정된 -3.5)
     public float moveSpeed = 3.0f;    // 움직이는 속도
 
     [Header("폭발 설정")]
@@ -22,13 +22,13 @@ public class GoldMove : NetworkBehaviour
     private Vector3 targetPosition;  // 현재 단계의 목표 위치
     private bool hasExploded = false;
 
-    // ★★★ 현재 이동 상태를 추적합니다 (네트워크 동기화는 필요 없음) ★★★
+    // ★★★ 현재 이동 상태를 추적합니다 ★★★
     private MoveState currentMoveState = MoveState.Stopped;
 
     void Start()
     {
+        // 씬 시작 시 위치를 저장합니다.
         initialPosition = transform.position;
-        // 초기에는 정지 상태
         currentMoveState = MoveState.Stopped;
     }
 
@@ -38,11 +38,12 @@ public class GoldMove : NetworkBehaviour
     {
         if (currentMoveState == MoveState.Stopped && !hasExploded)
         {
-            // 1. 시작 시 Y축 이동 목표 설정 후 이동 시작
-            targetPosition = initialPosition + transform.up * moveZDistance; // Y축 이동
-            currentMoveState = MoveState.MovingY;
+            // 1. Z축 이동 목표 설정 (Y축 대신 Z축으로 이동)
+            // transform.up (Y축) 대신 transform.forward (Z축) 사용
+            targetPosition = initialPosition + transform.forward * moveZDistance;
+            currentMoveState = MoveState.MovingZ; // 상태를 MovingZ로 변경했습니다.
 
-            Debug.Log("골드바 1단계 (Y축) 이동 시작!");
+            Debug.Log("골드바 1단계 (Z축) 이동 시작!");
         }
     }
 
@@ -68,9 +69,9 @@ public class GoldMove : NetworkBehaviour
     // ★★★ 목표 도달 시 다음 단계를 처리하는 로직 ★★★
     void HandleTargetReached()
     {
-        if (currentMoveState == MoveState.MovingY)
+        if (currentMoveState == MoveState.MovingZ) // 1단계 (Z축) 완료
         {
-            // 1단계(Y축) 완료 -> 2단계(X축) 시작
+            // 1단계(Z축) 완료 -> 2단계(X축) 시작
 
             // 현재 위치를 기준으로 X축 목표 위치 설정
             targetPosition = transform.position + transform.right * moveXDistance; // X축 이동
@@ -98,7 +99,11 @@ public class GoldMove : NetworkBehaviour
     IEnumerator ExplodeCoroutine()
     {
         // 폭발 점프 효과
-        Vector3 jumpPosition = targetPosition + Vector3.up * explosionJumpHeight;
+        // 폭발 전에 최종 목표 지점으로 이동 (혹시 모를 오차 방지)
+        Vector3 finalPosition = transform.position;
+        Vector3 jumpPosition = finalPosition + Vector3.up * explosionJumpHeight;
+
+        // 점프 위치로 이동
         transform.position = jumpPosition;
 
         yield return new WaitForSeconds(explosionDelay);

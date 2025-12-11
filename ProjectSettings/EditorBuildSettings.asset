@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/01_RoleSelect.unity
     guid: 9a3295fd85d87fb4ebf6008e1d58c0ce
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Scenes/02_Connection.unity
     guid: 6898b2c028504d34c8fc0f7258b183b6
   - enabled: 1

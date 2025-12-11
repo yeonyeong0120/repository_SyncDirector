@@ -52,8 +52,8 @@ MonoBehaviour:
   headlessStartMode: 0
   editorAutoStart: 0
   sendRate: 30
-  offlineScene: 
-  onlineScene: 
+  offlineScene: Assets/_Scenes/01_RoleSelect.unity
+  onlineScene: Assets/_Scenes/03_Collaboration.unity
   offlineSceneLoadDelay: 0
   transport: {fileID: 1419682486514602282}
   networkAddress: localhost

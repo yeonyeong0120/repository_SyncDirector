@@ -3042,6 +3042,7 @@ GameObject:
   - component: {fileID: 5595850116186501464}
   - component: {fileID: 1624580496020124907}
   - component: {fileID: 5912375734768403494}
+  - component: {fileID: 2884956837412414230}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3195,6 +3196,22 @@ MonoBehaviour:
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
+--- !u!114 &2884956837412414230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2273567038113826166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e8b3a7c2a69ec439df241709e343e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VRPlayerSetup
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  cameraRig: {fileID: 1203056988900415528}
 --- !u!1 &2277642845812000030
 GameObject:
   m_ObjectHideFlags: 0

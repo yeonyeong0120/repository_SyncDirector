@@ -1,6 +1,7 @@
 using UnityEngine;
 using Mirror;
 using System;
+using UnityEngine.SceneManagement; // 씬 관리 기능 추가
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -10,113 +11,89 @@ public class CustomNetworkManager : NetworkManager
     [Header("역할 구분")]
     public UserRole myRole = UserRole.None;
 
-    [Header("연결 정보")]
-    public string hostIP = "";
-
     public override void Awake()
     {
-        base.Awake(); // 중요: 부모 클래스(Mirror)의 Awake도 실행해줘야 함
+        base.Awake(); // Mirror의 기본 초기화 실행
 
+        // 싱글톤 보장: 이미 존재하면 나는(새로 생긴 놈은) 죽는다.
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != this) // Instance가 내가 아니라면
         {
-            // 이미 원조(Scene 00/01에서 온 녀석)가 있다면, 
-            // Scene 03에 미리 배치되어 있던 나는 '가짜'이므로 스스로 사라진다.
             Destroy(gameObject);
         }
     }
 
-    // 전문가 역할로 호스트 시작
+    // 전문가(Host) 시작
     public void StartAsExpert()
     {
         myRole = UserRole.Expert;
-        StartHost(); // 호스트(서버+클라이언트) 시작
-        hostIP = GetLocalIPAddress();
-        Debug.Log($"[Host] 전문가로 시작. IP: {hostIP}");
+
+        // 씬 전환이 안전하게 일어나도록 로그 찍기
+        Debug.Log("[CustomNetworkManager] 전문가 모드: Host 시작...");
+
+        StartHost(); // -> 이게 성공하면 자동으로 Online Scene으로 넘어갑니다.
     }
 
-    // 작업자 역할로 클라이언트 시작
+    // 작업자(Client) 시작
     public void StartAsWorker(string ip)
     {
-        // 커넥트매니저한테 연결시도하라고 알렺주기
-        ConnectionStateManager.Instance.StartConnecting();
+        // IP가 비어있으면 로컬호스트로 (테스트용)
+        if (string.IsNullOrEmpty(ip)) ip = "localhost";
+
+        // 연결 상태 매니저에게 알림 (ConnectionStateManager가 씬에 있다면)
+        if (ConnectionStateManager.Instance != null)
+            ConnectionStateManager.Instance.StartConnecting();
 
         myRole = UserRole.Worker;
         networkAddress = ip;
-        StartClient(); // 클라이언트 시작
-        Debug.Log($"[Client] 작업자로 연결 시도: {ip}");
+
+        Debug.Log($"[CustomNetworkManager] 작업자 모드: {ip} 연결 시도...");
+        StartClient();
     }
 
-    // 로컬 IP 주소 가져오기 (내부망 IP 확인용)
-    string GetLocalIPAddress()
-    {
-        string localIP = "localhost";
-        try
-        {
-            var host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    localIP = ip.ToString();
-                    break;
-                }
-            }
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogError($"IP 주소 가져오기 실패: {e.Message}");
-        }
-        return localIP;
-    }
+    // --- 이벤트 콜백 ---
 
-    // 연결 성공 시 호출 (클라이언트 측)
-    public override void OnClientConnect()
-    {
-        base.OnClientConnect();
-
-        // 연결 성공하면 성공했다규 알려주기
-        // 작업자일때만 성공햇다고 알려주셈
-        if (myRole == UserRole.Worker)
-        {
-            if (ConnectionStateManager.Instance != null)
-                ConnectionStateManager.Instance.OnConnectionSuccess();
-        }
-
-        Debug.Log("[Client] 서버에 연결 성공!");
-    }
-
-    // 연결 끊김 시 호출 (클라이언트 측)
-    public override void OnClientDisconnect()
-    {
-        base.OnClientDisconnect();
-
-        // 실패하면 실패했다고 알려주기
-        // [수정] Null 체크 추가!
-        if (ConnectionStateManager.Instance != null)
-            ConnectionStateManager.Instance.OnConnectionLost();
-
-        Debug.LogError("[Client] 서버 연결 끊김!");
-    }
-
-    // 클라이언트 접속 시 호출 (서버 측)
+    // [서버] 클라이언트 접속 시 (작업자가 들어왔을 때)
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
         base.OnServerConnect(conn);
-        Debug.Log($"[Host] 클라이언트 연결됨: {conn.address}");
+        Debug.Log($"[Host] 클라이언트 접속됨: {conn.address}");
 
-        // 접속시 텍스트 바꾸기 일단임시로...
-        if (conn.connectionId > 0)
+        // 내(Host)가 접속한 게 아니라 남(Client)이 접속했을 때만 이벤트 발생
+        if (conn.connectionId != 0)
         {
             OnWorkerConnected?.Invoke();
         }
     }
+
+    // [클라이언트] 접속 성공 시
+    public override void OnClientConnect()
+    {
+        base.OnClientConnect();
+        Debug.Log("[Client] 서버에 연결 성공!");
+
+        if (myRole == UserRole.Worker && ConnectionStateManager.Instance != null)
+        {
+            ConnectionStateManager.Instance.OnConnectionSuccess();
+        }
+    }
+
+    // [클라이언트] 접속 끊김 시
+    public override void OnClientDisconnect()
+    {
+        base.OnClientDisconnect();
+        Debug.LogWarning("[Client] 연결 끊김.");
+
+        if (ConnectionStateManager.Instance != null)
+            ConnectionStateManager.Instance.OnConnectionLost();
+    }
 }
 
+// ▼▼▼ 이 부분이 빠져서 오류가 났었습니다! ▼▼▼
 // 역할 구분용 Enum
 public enum UserRole
 {

@@ -92,7 +92,7 @@ public class ConnectionUI : MonoBehaviour
         UpdateStatus("연결 성공! 공장으로 이동합니다.", Color.green);
 
         // 1초 뒤에 협업 씬(03_Collaboration)으로 이동
-        Invoke(nameof(MoveToCollaboration), 1.0f);
+        //Invoke(nameof(MoveToCollaboration), 1.0f);
     }
 
     void MoveToCollaboration()

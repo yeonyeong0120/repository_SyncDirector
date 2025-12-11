@@ -1,68 +1,48 @@
 using UnityEngine;
 using Mirror;
-using UnityEngine.EventSystems;
 
-public class FactoryMachine : NetworkBehaviour, IPointerClickHandler
+public class FactoryMachine : NetworkBehaviour
 {
     [Header("설정")]
     public Animator anim;
-    // ★ 주의: 애니메이터 창의 'Parameters' 탭에 이 이름으로 Bool을 만들어야 합니다!
-    public string animParamName = "IsWorking";
+    public string animParamName = "IsWorking"; // "IsWorking" Bool 파라미터 이름
 
+    [Header("관리자 연결")]
+    public MachineManager manager; // ★ MachineManager 스크립트를 연결할 변수 추가 ★
+
+    // 상태 동기화: 서버에서 상태를 바꾸면 모든 클라이언트가 이 값을 가집니다.
     [SyncVar(hook = nameof(OnStateChanged))]
     public bool isWorking = false;
 
     void Start()
     {
         if (anim == null) anim = GetComponent<Animator>();
+        if (anim != null) anim.SetBool(animParamName, isWorking);
     }
 
-    // 클릭 감지 (여기가 반응 없으면 Raycaster 문제)
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        Debug.Log($"<color=cyan>[클릭 감지됨!] {gameObject.name}을 클릭했습니다.</color>");
-
-        if (CustomNetworkManager.Instance == null)
-        {
-            Debug.LogError("NetworkManager가 없습니다!");
-            return;
-        }
-
-        UserRole myRole = CustomNetworkManager.Instance.myRole;
-        Debug.Log($"내 역할 확인: {myRole}");
-
-        if (myRole == UserRole.Expert)
-        {
-            Debug.Log("전문가 권한: 하이라이트 요청 보냄");
-            if (HighlightSystem.Instance != null)
-                HighlightSystem.Instance.CmdHighlight(this.gameObject.name);
-        }
-        else if (myRole == UserRole.Worker)
-        {
-            Debug.Log("작업자 권한: 작동 토글 요청 보냄");
-            CmdToggleWork();
-        }
-        else
-        {
-            Debug.LogWarning("역할이 None입니다. RoleSelect를 거쳐왔나요?");
-        }
-    }
-
+    // ★ LeverClick.cs에서 Worker 역할일 때 이 함수를 호출합니다. ★
     [Command(requiresAuthority = false)]
-    void CmdToggleWork()
+    public void CmdToggleWork()
     {
+        // 서버에서만 상태를 변경
         isWorking = !isWorking;
-        Debug.Log($"[서버] 작동 상태 변경 -> {isWorking}");
+        Debug.Log($"[서버] Worker 요청: 작동 상태 변경 -> {isWorking}");
+
+        // ★ [핵심 추가] 상태가 바뀔 때마다 MachineManager에게 확인 요청 ★
+        if (manager != null)
+        {
+            manager.CheckAllMachinesStatus();
+        }
     }
 
-    // 상태가 변하면 애니메이션 제어
+    // 상태(isWorking)가 변하면 모든 클라이언트에서 실행됩니다.
     void OnStateChanged(bool oldState, bool newState)
     {
-        Debug.Log($"[애니메이션] 상태 변경: {oldState} -> {newState}");
+        Debug.Log($"[애니메이션] 상태 동기화: {oldState} -> {newState}");
 
         if (anim != null)
         {
-            // Bool 파라미터로 제어 (가장 확실한 방법)
+            // 동기화된 상태에 따라 애니메이션을 제어합니다.
             anim.SetBool(animParamName, newState);
         }
     }

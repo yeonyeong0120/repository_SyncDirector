@@ -3212,6 +3212,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   cameraRig: {fileID: 1203056988900415528}
+  bodyMesh: {fileID: 3530300341714702512}
 --- !u!1 &2277642845812000030
 GameObject:
   m_ObjectHideFlags: 0

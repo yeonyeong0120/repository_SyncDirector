@@ -701,6 +701,109 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 46316727}
   m_Mesh: {fileID: 5466536340725256532, guid: 1570fad1b9c0c0f4e95b33e0b3bbdb8a, type: 3}
+--- !u!1 &48826463
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 48826464}
+  - component: {fileID: 48826466}
+  - component: {fileID: 48826465}
+  - component: {fileID: 48826468}
+  - component: {fileID: 48826467}
+  m_Layer: 3
+  m_Name: VideoScreen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &48826464
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48826463}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 129464711}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 221.19998}
+  m_SizeDelta: {x: 800, y: 450}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &48826465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48826463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.RawImage
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+--- !u!222 &48826466
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48826463}
+  m_CullTransparentMesh: 1
+--- !u!114 &48826467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48826463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b41e24b8008aa144583212962714ea43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NDIReceiveHandler
+--- !u!114 &48826468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48826463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a09ab5fc64402d49b12d170a7577986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Klak.Ndi.Runtime::Klak.Ndi.NdiReceiver
+  _ndiName: 
+  _targetTexture: {fileID: 0}
+  _targetRenderer: {fileID: 0}
+  _targetMaterialProperty: 
+  _resources: {fileID: 11400000, guid: 69304b86950074db7ba8caba75214004, type: 2}
 --- !u!1001 &53116302
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2061,7 +2164,7 @@ Transform:
   m_GameObject: {fileID: 113172976}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.05, y: -0.78, z: 17.37}
+  m_LocalPosition: {x: 14.81, y: -0.78, z: 17.74}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2359,6 +2462,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 487265976}
+  - {fileID: 48826464}
   - {fileID: 323750949}
   - {fileID: 1888345973}
   m_Father: {fileID: 1551269229}
@@ -11969,9 +12073,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7606907741338662870, guid: 5e8d61208d223a54781b53bcabf5359e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 478204842}
-    - targetCorrespondingSourceObject: {fileID: -2707712884810427163, guid: 5e8d61208d223a54781b53bcabf5359e, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1238941031}
   m_SourcePrefab: {fileID: 100100000, guid: 5e8d61208d223a54781b53bcabf5359e, type: 3}
 --- !u!4 &478204840 stripped
 Transform:
@@ -17271,7 +17372,7 @@ Transform:
   m_GameObject: {fileID: 859050277}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.385, y: -0.78, z: 18.004}
+  m_LocalPosition: {x: 12.25, y: -0.78, z: 19.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -25482,32 +25583,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9002e981009c0b24093305ab6f4746e7, type: 3}
   m_PrefabInstance: {fileID: 1236317983}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1238941027 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -2707712884810427163, guid: 5e8d61208d223a54781b53bcabf5359e, type: 3}
-  m_PrefabInstance: {fileID: 478204839}
-  m_PrefabAsset: {fileID: 0}
---- !u!65 &1238941031
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1238941027}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 67.36847, y: 0.000014648438, z: 67.34263}
-  m_Center: {x: 33.684235, y: 0.000007324219, z: 33.671314}
 --- !u!1001 &1239685834
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26048,7 +26123,7 @@ Transform:
   m_GameObject: {fileID: 1250211417}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.94, y: -0.78, z: 15.08}
+  m_LocalPosition: {x: 16.42, y: -0.78, z: 16.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

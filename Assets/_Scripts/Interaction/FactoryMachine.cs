@@ -1,15 +1,14 @@
 using UnityEngine;
 using Mirror;
-using UnityEngine.EventSystems; // 클릭 감지용
+using UnityEngine.EventSystems;
 
 public class FactoryMachine : NetworkBehaviour, IPointerClickHandler
 {
     [Header("설정")]
-    public Animator anim; // 기계의 애니메이터 연결
-    public string myAnimationName = "Work"; // 실행할 애니메이션 이름 (Animator창에 있는 박스 이름)
+    public Animator anim;
+    // ★ 주의: 애니메이터 창의 'Parameters' 탭에 이 이름으로 Bool을 만들어야 합니다!
+    public string animParamName = "IsWorking";
 
-    // 네트워크 변수 (모든 사람 화면에서 상태 동기화)
-    // hook: 이 변수가 바뀌면 OnStateChanged 함수를 자동 실행해라!
     [SyncVar(hook = nameof(OnStateChanged))]
     public bool isWorking = false;
 
@@ -18,51 +17,53 @@ public class FactoryMachine : NetworkBehaviour, IPointerClickHandler
         if (anim == null) anim = GetComponent<Animator>();
     }
 
-    // 클릭했을 때 실행됨 (전문가/작업자 구분)
+    // 클릭 감지 (여기가 반응 없으면 Raycaster 문제)
     public void OnPointerClick(PointerEventData eventData)
     {
-        // 내 역할 가져오기
-        UserRole myRole = CustomNetworkManager.Instance.myRole;
+        Debug.Log($"<color=cyan>[클릭 감지됨!] {gameObject.name}을 클릭했습니다.</color>");
 
-        // 1. 전문가가 클릭함 -> 하이라이트 켜기
+        if (CustomNetworkManager.Instance == null)
+        {
+            Debug.LogError("NetworkManager가 없습니다!");
+            return;
+        }
+
+        UserRole myRole = CustomNetworkManager.Instance.myRole;
+        Debug.Log($"내 역할 확인: {myRole}");
+
         if (myRole == UserRole.Expert)
         {
-            // 팀원이 만든 시스템 호출 (이름으로 찾아서 명령)
+            Debug.Log("전문가 권한: 하이라이트 요청 보냄");
             if (HighlightSystem.Instance != null)
                 HighlightSystem.Instance.CmdHighlight(this.gameObject.name);
         }
-        // 2. 작업자가 클릭함 -> 작동 멈춤/시작 토글
         else if (myRole == UserRole.Worker)
         {
-            // 서버에 "상태 바꿔줘!" 요청
+            Debug.Log("작업자 권한: 작동 토글 요청 보냄");
             CmdToggleWork();
+        }
+        else
+        {
+            Debug.LogWarning("역할이 None입니다. RoleSelect를 거쳐왔나요?");
         }
     }
 
-    // [서버 명령] 작업 상태 뒤집기 (켜짐<->꺼짐)
-    [Command(requiresAuthority = false)] // 권한 없어도 클릭 가능하게 설정
+    [Command(requiresAuthority = false)]
     void CmdToggleWork()
     {
-        isWorking = !isWorking; // true면 false로, false면 true로
+        isWorking = !isWorking;
+        Debug.Log($"[서버] 작동 상태 변경 -> {isWorking}");
     }
 
-    // [상태 변경 시 자동 실행] 애니메이션 제어
+    // 상태가 변하면 애니메이션 제어
     void OnStateChanged(bool oldState, bool newState)
     {
+        Debug.Log($"[애니메이션] 상태 변경: {oldState} -> {newState}");
+
         if (anim != null)
         {
-            if (newState == true)
-            {
-                // 작동 시작!
-                anim.Play(myAnimationName);
-                anim.speed = 1; // 재생 속도 정상
-            }
-            else
-            {
-                // 작동 멈춤!
-                // anim.Play("Idle"); // Idle로 보내거나
-                anim.speed = 0; // 그냥 그 자리에서 얼음(일시정지) 시키려면 속도를 0으로
-            }
+            // Bool 파라미터로 제어 (가장 확실한 방법)
+            anim.SetBool(animParamName, newState);
         }
     }
 }

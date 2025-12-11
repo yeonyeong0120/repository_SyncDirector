@@ -54742,9 +54742,57 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: -1.262
       objectReference: {fileID: 0}
+    - target: {fileID: 6999573407283852361, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Size.x
+      value: 0.66960925
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999573407283852361, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Size.y
+      value: 0.4934073
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999573407283852361, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Size.z
+      value: 0.44563895
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999573407283852361, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Center.x
+      value: -0.009949383
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999573407283852361, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Center.y
+      value: 0.21976778
+      objectReference: {fileID: 0}
+    - target: {fileID: 6999573407283852361, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Center.z
+      value: -0.19553155
+      objectReference: {fileID: 0}
     - target: {fileID: 8035851791750902215, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
       propertyPath: m_TagString
       value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048706796836220658, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Size.x
+      value: 0.51537114
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048706796836220658, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Size.y
+      value: 0.46001834
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048706796836220658, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Size.z
+      value: 0.17283885
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048706796836220658, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Center.x
+      value: -0.026017614
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048706796836220658, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Center.y
+      value: -0.021300703
+      objectReference: {fileID: 0}
+    - target: {fileID: 9048706796836220658, guid: 84c75a0194f74be43a6fd0c287e60aed, type: 3}
+      propertyPath: m_Center.z
+      value: -0.073677614
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -54827,7 +54875,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   anim: {fileID: 0}
-  myAnimationName: Machn_1_UpDown
+  animParamName: IsWorking
   isWorking: 0
 --- !u!114 &4682075555609988671
 MonoBehaviour:
@@ -54845,7 +54893,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   anim: {fileID: 0}
-  myAnimationName: Machn_1_Rotate
+  animParamName: IsWorking
   isWorking: 0
 --- !u!114 &4682075555609988672
 MonoBehaviour:

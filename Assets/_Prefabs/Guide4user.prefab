@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -10}
+  m_AnchoredPosition: {x: 0, y: -24}
   m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4873177858831496977
@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uAC00\uC774\uB4DC \uB85C\uBD07 ~_~"
+  m_text: "\uC548\uB155\uD558\uC138\uC694, \uC2F1\uD06C\uB514\uB809\uD130\uC785\uB2C8\uB2E4!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 08c3b99aae27e2040b26e87a03535b94, type: 2}
   m_sharedMaterial: {fileID: 7804661952814694772, guid: 08c3b99aae27e2040b26e87a03535b94, type: 2}
@@ -248,10 +248,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4420043594011476057}
   - component: {fileID: 8674596365640596537}
-  - component: {fileID: 4252641635070508408}
-  - component: {fileID: 8483203733385468259}
+  - component: {fileID: 1291760833162024962}
   m_Layer: 0
-  m_Name: Guide_Robot
+  m_Name: Guide4user
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a80fe909e3ea1d04596d188bab0144a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SimpleLookAt
---- !u!114 &4252641635070508408
+--- !u!114 &1291760833162024962
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -295,35 +294,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4595920956850627377}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f820ba481ffa6a24c90c7f4f51122f71, type: 3}
+  m_Script: {fileID: 11500000, guid: 84a2f67ddec51db46a344458fd0be9dd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RobotMessage
+  m_EditorClassIdentifier: Assembly-CSharp::RobotMessageAuto
   bubbleText: {fileID: 8843196079541187040}
   messages:
-  - "\uC548\uB155\uD558\uC138\uC694! \uC2F1\uD06C\uB514\uB809\uD130\uC785\uB2C8\uB2E4!"
-  - "\uC5ED\uD560\uC744 \uC120\uD0DD\uD574\uC8FC\uC138\uC694!"
-  - "\uC791\uC5C5\uC790\uC2E0\uAC00\uC694? \uC804\uBB38\uAC00\uC2E0\uAC00\uC694?"
---- !u!65 &8483203733385468259
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4595920956850627377}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.44878697, y: 0.7638008, z: 0.4882444}
-  m_Center: {x: -0.0038683414, y: 0.350974, z: -0.029030502}
+  - 
+  changeInterval: 2
 --- !u!1 &8621351755903398221
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +399,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0005630255
+      value: 0.179
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -430,7 +407,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0009188652
+      value: -0.023
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0173b8810f5aecf45a887eb070b20d1e, type: 3}
       propertyPath: m_LocalRotation.w

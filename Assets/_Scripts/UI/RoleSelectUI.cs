@@ -28,7 +28,7 @@ public class RoleSelectUI : MonoBehaviour
     }
 
     // --- 전문가(Host) 버튼 눌렀을 때 ---
-    void OnExpertClick()
+    public void OnExpertClick()
     {
         statusText.text = "전문가 모드 시작... (방송 중)";
         statusText.color = Color.yellow;
@@ -48,7 +48,7 @@ public class RoleSelectUI : MonoBehaviour
     }
 
     // --- 작업자(Worker) 버튼 눌렀을 때 ---
-    void OnWorkerClick()
+    public void OnWorkerClick()
     {
         // ★★★ [수정됨] 메뉴 안 띄우고 바로 검색 시작! ★★★
         statusText.text = "전문가 찾는 중... (자동 검색)";

@@ -11,6 +11,8 @@ public class CustomNetworkManager : NetworkManager
     [Header("역할 구분")]
     public UserRole myRole = UserRole.None;
 
+    public string hostIP = "";
+
     public override void Awake()
     {
         base.Awake(); // Mirror의 기본 초기화 실행

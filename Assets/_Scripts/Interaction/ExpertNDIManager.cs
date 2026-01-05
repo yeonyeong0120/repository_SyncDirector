@@ -62,22 +62,35 @@ public class ExpertNDIManager : MonoBehaviour
     {
         while (true)
         {
-            // 리시버가 켜져 있고 아직 채널이 연결되지 않았을 때만 검색
             if (ndiReceiver != null && string.IsNullOrEmpty(ndiReceiver.ndiName))
             {
+                // [보완] NdiFinder.sourceNames가 null인지 체크하여 에러를 방지합니다.
                 var sources = NdiFinder.sourceNames;
-
-                // [수정] 네트워크상의 소스 중 우리가 정한 이름이 있는지 확인
-                var targetSource = sources.FirstOrDefault(s => s.Contains(targetStreamName));
-
-                if (targetSource != null)
+                if (sources != null)
                 {
-                    ndiReceiver.ndiName = targetSource;
-                    Debug.Log($"[NDI] 작업자 방송 발견 및 연결 완료: {targetSource}");
+                    var targetSource = sources.FirstOrDefault(s => s != null && s.Contains(targetStreamName));
+
+                    if (targetSource != null)
+                    {
+                        ndiReceiver.ndiName = targetSource;
+
+                        // ▼▼▼ [추가] 수신된 텍스처를 Quad의 머티리얼에 실시간으로 연결합니다. ▼▼▼
+                        // Quad의 Renderer를 가져와서 메인 텍스처를 NDI 수신 텍스처로 바꿉니다.
+                        Renderer rend = monitorObject.GetComponent<Renderer>();
+                        if (rend != null)
+                        {
+                            // NdiReceiver가 제공하는 텍스처를 머티리얼에 할당합니다.
+                            rend.material.mainTexture = ndiReceiver.texture;
+                        }
+                        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
+
+                        Debug.Log($"[NDI] 연결 완료 및 텍스처 바인딩: {targetSource}");
+                    }
                 }
             }
-            // 1초마다 반복 검색
             yield return new WaitForSeconds(1.0f);
         }
     }
+
+    //
 }

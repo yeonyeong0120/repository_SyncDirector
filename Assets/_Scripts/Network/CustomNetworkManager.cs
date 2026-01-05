@@ -87,11 +87,19 @@ public class CustomNetworkManager : NetworkManager
     // [클라이언트] 접속 끊김 시
     public override void OnClientDisconnect()
     {
+        // [추가] 왜 끊겼는지 로그를 찍어 원인을 파악합니다.
+        Debug.LogWarning("[Client] 서버와 연결이 끊겨 씬을 복구합니다.");
+
         base.OnClientDisconnect();
-        Debug.LogWarning("[Client] 연결 끊김.");
 
         if (ConnectionStateManager.Instance != null)
             ConnectionStateManager.Instance.OnConnectionLost();
+
+        // 만약 에러로 인해 끊긴 것이라면 씬 컨트롤러를 통해 복귀 메시지를 띄울 수 있습니다.
+        if (SceneController.Instance != null)
+        {
+            SceneController.Instance.ReturnToRoleSelect("네트워크 오류로 연결이 종료되었습니다.");
+        }
     }
 }
 

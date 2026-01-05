@@ -62,32 +62,34 @@ public class ExpertNDIManager : MonoBehaviour
     {
         while (true)
         {
+            // 1. 소스 이름이 아직 비어있다면 검색을 시도합니다.
             if (ndiReceiver != null && string.IsNullOrEmpty(ndiReceiver.ndiName))
             {
-                // [보완] NdiFinder.sourceNames가 null인지 체크하여 에러를 방지합니다.
                 var sources = NdiFinder.sourceNames;
                 if (sources != null)
                 {
                     var targetSource = sources.FirstOrDefault(s => s != null && s.Contains(targetStreamName));
-
                     if (targetSource != null)
                     {
                         ndiReceiver.ndiName = targetSource;
-
-                        // ▼▼▼ [추가] 수신된 텍스처를 Quad의 머티리얼에 실시간으로 연결합니다. ▼▼▼
-                        // Quad의 Renderer를 가져와서 메인 텍스처를 NDI 수신 텍스처로 바꿉니다.
-                        Renderer rend = monitorObject.GetComponent<Renderer>();
-                        if (rend != null)
-                        {
-                            // NdiReceiver가 제공하는 텍스처를 머티리얼에 할당합니다.
-                            rend.material.mainTexture = ndiReceiver.texture;
-                        }
-                        // ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
-
-                        Debug.Log($"[NDI] 연결 완료 및 텍스처 바인딩: {targetSource}");
+                        Debug.Log($"[NDI] 소스 발견 및 연결 시도: {targetSource}");
                     }
                 }
             }
+
+            // 2. 소스는 연결되었는데 화면이 아직 하얗다면 (텍스처 바인딩 확인)
+            // [수정] 연결된 이후에도 텍스처가 머티리얼에 들어갔는지 주기적으로 확인합니다.
+            if (ndiReceiver != null && !string.IsNullOrEmpty(ndiReceiver.ndiName))
+            {
+                Renderer rend = monitorObject.GetComponent<Renderer>();
+                // 리시버의 텍스처가 준비되었고, 아직 머티리얼에 연결되지 않았다면 바인딩합니다.
+                if (rend != null && ndiReceiver.texture != null && rend.material.mainTexture != ndiReceiver.texture)
+                {
+                    rend.material.mainTexture = ndiReceiver.texture;
+                    Debug.Log("[NDI] 텍스처 바인딩 완료 - 이제 화면이 보여야 합니다.");
+                }
+            }
+
             yield return new WaitForSeconds(1.0f);
         }
     }

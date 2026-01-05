@@ -4,7 +4,7 @@ using Mirror;
 using System.Collections;
 using System.Linq;
 
-public class ExpertNDIManager : NetworkBehaviour
+public class ExpertNDIManager : MonoBehaviour
 {
     [Header("연결 설정")]
     public GameObject monitorObject; // 영상을 띄울 Quad
@@ -17,6 +17,18 @@ public class ExpertNDIManager : NetworkBehaviour
     {
         // 씬 시작 시 역할에 따른 초기화 실행
         StartCoroutine(InitializeExpertScreen());
+    }
+
+    void Update()
+    {
+        // CustomNetworkManager.Instance.myRole로 내 역할을 확인하는 로직은
+        // MonoBehaviour에서도 그대로 작동합니다.
+        if (CustomNetworkManager.Instance == null) return;
+
+        if (CustomNetworkManager.Instance.myRole == UserRole.Expert)
+        {
+            // 전문가 로직 실행
+        }
     }
 
     IEnumerator InitializeExpertScreen()
